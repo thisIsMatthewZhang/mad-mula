@@ -4,6 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://yru60826y8lp" path="res://coin.tscn" id="2_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://bnpcoyrwqfprq" path="res://addons/project-time-tracker/TrackerDock.tscn" id="3_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://b71tjejihfbcf" path="res://player.tscn" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://vsu6q7efvjnj" path="res://Ui.cs" id="5_7mycd"]
+[ext_resource type="Script" uid="uid://dyqssvq5dyepk" path="res://RemainingCoins.cs" id="6_272bh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ojbc5"]
 size = Vector3(30, 2, 30)
@@ -39,6 +41,7 @@ projection = 1
 size = 30.0
 
 [node name="TrackerDock" parent="." unique_id=267281179 instance=ExtResource("3_1bvp3")]
+visible = false
 
 [node name="Player" parent="." unique_id=1889078304 instance=ExtResource("4_1bvp3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2)
@@ -66,3 +69,21 @@ surface_material_override/0 = SubResource("StandardMaterial3D_4rg6g")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2633915, 3.0304718, 1.0261245)
 mesh = SubResource("CylinderMesh_vforx")
 surface_material_override/0 = SubResource("StandardMaterial3D_4rg6g")
+
+[node name="UI" type="Control" parent="." unique_id=2089443129]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 45.0
+offset_top = 29.0
+offset_right = 85.0
+offset_bottom = 69.0
+script = ExtResource("5_7mycd")
+
+[node name="RemainingCoins" type="Label" parent="UI" unique_id=1900784583]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0.84705883, 0.80784315, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "Coins left: "
+script = ExtResource("6_272bh")
