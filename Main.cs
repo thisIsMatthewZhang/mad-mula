@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Main : Node
 {
@@ -10,9 +9,18 @@ public partial class Main : Node
 
     public override void _Ready()
     {
+        InitializeCoinsRandomly();
+    }
+
+    private void InitializeCoinsRandomly()
+    {
+        BoxShape3D box = (BoxShape3D) GetNode<CollisionShape3D>("Ground/CollisionShape3D").Shape;
         for (int i = 0; i < CoinCount; i++)
         {
             // TODO: logic to randomly lay coins around the level
+            Coin coin = CoinScene.Instantiate<Coin>();
+            coin.Position = new Vector3((float)GD.RandRange(-box.Size.X / 2 + 1, box.Size.X / 2 - 1), box.Size.Y + 1.0f, (float)GD.RandRange(-box.Size.Z / 2 + 1, box.Size.Z / 2 - 1));
+            AddChild(coin);
         }
     }
 

@@ -10,12 +10,11 @@ public partial class Coin : AnimatableBody3D
         Spin();
     }
 
-    public Coin Remove()
+    public void Remove()
     {
         // TODO: display sparkle effects
         EmitSignal(SignalName.Grabbed);
         QueueFree();
-        return this;
     }
 
     public void Spin() 

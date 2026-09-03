@@ -6,16 +6,23 @@
 [ext_resource type="PackedScene" uid="uid://b71tjejihfbcf" path="res://player.tscn" id="4_1bvp3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ojbc5"]
-size = Vector3(120, 2, 120)
+size = Vector3(30, 2, 30)
 
 [sub_resource type="BoxMesh" id="BoxMesh_kff15"]
-size = Vector3(120, 2, 120)
+size = Vector3(30, 2, 30)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vforx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4rg6g"]
+albedo_color = Color(1, 0, 1, 1)
 
 [node name="Main" type="Node" unique_id=1893384718]
 script = ExtResource("1_0xm2m")
 CoinScene = ExtResource("2_1bvp3")
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=1988118741]
+collision_layer = 4
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=1666572742]
 shape = SubResource("BoxShape3D_ojbc5")
@@ -24,12 +31,38 @@ shape = SubResource("BoxShape3D_ojbc5")
 mesh = SubResource("BoxMesh_kff15")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1079696629]
-transform = Transform3D(1, 0, 0, 0, 0.9648143, 0.26293224, 0, -0.26293224, 0.9648143, 0, 1.9848309, 2.8592927)
+transform = Transform3D(1, 0, 0, 0, -0.5981858, 0.8013575, 0, -0.8013575, -0.5981858, 0, 13.985395, 19.469284)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=357786491]
-transform = Transform3D(1, 0, 0, 0, 0.9648143, 0.26293224, 0, -0.26293224, 0.9648143, 0, 1.9848309, 2.8592927)
+transform = Transform3D(1, 0, 0, 0, 0.25118616, 0.9679388, 0, -0.9679388, 0.25118616, 0, 53.343872, 13.502686)
+projection = 1
+size = 30.0
 
 [node name="TrackerDock" parent="." unique_id=267281179 instance=ExtResource("3_1bvp3")]
 
 [node name="Player" parent="." unique_id=1889078304 instance=ExtResource("4_1bvp3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2)
+
+[node name="Cylinders" type="Node3D" parent="." unique_id=200994784]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cylinders" unique_id=1162630327]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.9332905, 3.0304718, -7.971089)
+mesh = SubResource("CylinderMesh_vforx")
+surface_material_override/0 = SubResource("StandardMaterial3D_4rg6g")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Cylinders" unique_id=1381203699]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.9332905, 3.0304718, 1.0261245)
+mesh = SubResource("CylinderMesh_vforx")
+surface_material_override/0 = SubResource("StandardMaterial3D_4rg6g")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Cylinders" unique_id=1837241577]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2633915, 3.0304718, -7.971089)
+mesh = SubResource("CylinderMesh_vforx")
+surface_material_override/0 = SubResource("StandardMaterial3D_4rg6g")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Cylinders" unique_id=373204364]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2633915, 3.0304718, 1.0261245)
+mesh = SubResource("CylinderMesh_vforx")
+surface_material_override/0 = SubResource("StandardMaterial3D_4rg6g")
