@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://b71tjejihfbcf"]
+
+[ext_resource type="Script" uid="uid://copbc17rdhx55" path="res://Player.cs" id="1_4flbx"]
+[ext_resource type="Texture2D" uid="uid://bx535lgvdgxi1" path="res://icon.svg" id="2_onrkg"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ojbc5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vforx"]
+albedo_texture = ExtResource("2_onrkg")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ojbc5"]
+radius = 0.6
+height = 2.25
+
+[node name="Player" type="CharacterBody3D" unique_id=1889078304]
+script = ExtResource("1_4flbx")
+
+[node name="Pivot" type="Node3D" parent="." unique_id=482744780]
+
+[node name="Character" type="Node3D" parent="Pivot" unique_id=2066187670]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot" unique_id=1786821747]
+mesh = SubResource("CapsuleMesh_ojbc5")
+surface_material_override/0 = SubResource("StandardMaterial3D_vforx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=787219975]
+shape = SubResource("CapsuleShape3D_ojbc5")
+debug_color = Color(0.91521823, 0.17218953, 0.5830016, 0.41960785)

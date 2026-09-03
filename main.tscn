@@ -1,18 +1,19 @@
 [gd_scene format=3 uid="uid://bht40wptqjgo8"]
 
 [ext_resource type="Script" uid="uid://brmstphgl7vb5" path="res://Main.cs" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://yru60826y8lp" path="res://coin.tscn" id="2_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://bnpcoyrwqfprq" path="res://addons/project-time-tracker/TrackerDock.tscn" id="3_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://yru60826y8lp" path="res://coin.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://b71tjejihfbcf" path="res://player.tscn" id="4_1bvp3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ojbc5"]
+size = Vector3(120, 2, 120)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_vforx"]
+[sub_resource type="BoxMesh" id="BoxMesh_kff15"]
+size = Vector3(120, 2, 120)
 
 [node name="Main" type="Node" unique_id=1893384718]
 script = ExtResource("1_0xm2m")
-
-[node name="Coin" parent="." unique_id=613839253 instance=ExtResource("3_h2yge")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8644831, 0)
+CoinScene = ExtResource("2_1bvp3")
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=1988118741]
 
@@ -20,7 +21,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8644831, 0)
 shape = SubResource("BoxShape3D_ojbc5")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=733640854]
-mesh = SubResource("PlaneMesh_vforx")
+mesh = SubResource("BoxMesh_kff15")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1079696629]
 transform = Transform3D(1, 0, 0, 0, 0.9648143, 0.26293224, 0, -0.26293224, 0.9648143, 0, 1.9848309, 2.8592927)
@@ -29,3 +30,6 @@ transform = Transform3D(1, 0, 0, 0, 0.9648143, 0.26293224, 0, -0.26293224, 0.964
 transform = Transform3D(1, 0, 0, 0, 0.9648143, 0.26293224, 0, -0.26293224, 0.9648143, 0, 1.9848309, 2.8592927)
 
 [node name="TrackerDock" parent="." unique_id=267281179 instance=ExtResource("3_1bvp3")]
+
+[node name="Player" parent="." unique_id=1889078304 instance=ExtResource("4_1bvp3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2)
