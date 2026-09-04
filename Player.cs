@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Player : CharacterBody3D
 {
@@ -7,6 +6,13 @@ public partial class Player : CharacterBody3D
     public int Speed { get; set; } = 5;
 
     private Vector3 _targetVelocity = Vector3.Zero;
+
+    [Export]
+    public int JumpImpulse { get; set; } = 20;
+
+    [Export]
+    public int FallAcceleration { get; set; } = 75;
+    private bool DoubleJumpAllowed { get; set; } = false;
 
     public override void _PhysicsProcess(double delta)
     {
@@ -20,7 +26,7 @@ public partial class Player : CharacterBody3D
         {
             direction.X -= 1.0f;
         }
-        // X and Z refer to the ground plane in 3D
+
         if (Input.IsActionPressed("move_forward"))
         {
             direction.Z -= 1.0f;
@@ -34,8 +40,25 @@ public partial class Player : CharacterBody3D
             direction = direction.Normalized();
             GetNode<Node3D>("Pivot").Basis = Basis.LookingAt(direction);
         }
+        if (IsOnFloor() && Input.IsActionJustPressed("jump"))
+        {
+            _targetVelocity.Y = JumpImpulse;
+            DoubleJumpAllowed = true;
+            
+        }
+        if (!IsOnFloor() && Input.IsActionJustPressed("jump") && DoubleJumpAllowed)
+        {
+            _targetVelocity.Y = JumpImpulse * 0.75f;
+            DoubleJumpAllowed = false;
+        }
+
         _targetVelocity.X = Speed * direction.X;
         _targetVelocity.Z = Speed * direction.Z;
+        
+        if (!IsOnFloor())
+        {
+            _targetVelocity.Y -= FallAcceleration * (float) delta;
+        }
 
         Velocity = _targetVelocity;
         MoveAndSlide();
