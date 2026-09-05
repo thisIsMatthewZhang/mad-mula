@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b71tjejihfbcf" path="res://player.tscn" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://vsu6q7efvjnj" path="res://Ui.cs" id="5_7mycd"]
 [ext_resource type="Script" uid="uid://dyqssvq5dyepk" path="res://RemainingCoins.cs" id="6_272bh"]
+[ext_resource type="Script" uid="uid://dm22wpsgn3yu3" path="res://CountdownLabel.cs" id="7_272bh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ojbc5"]
 size = Vector3(30, 2, 30)
@@ -87,3 +88,19 @@ theme_override_colors/font_color = Color(0.84705883, 0.80784315, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "Coins left: "
 script = ExtResource("6_272bh")
+
+[node name="CountdownLabel" type="Label" parent="UI" unique_id=719911733]
+layout_mode = 0
+offset_left = 1479.0
+offset_top = 147.0
+offset_right = 1824.0
+offset_bottom = 246.0
+theme_override_colors/font_color = Color(0, 1, 0.023529412, 1)
+theme_override_font_sizes/font_size = 72
+text = "Time left: "
+script = ExtResource("7_272bh")
+
+[node name="Timer" type="Timer" parent="." unique_id=1090509461]
+wait_time = 30.0
+one_shot = true
+autostart = true

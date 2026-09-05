@@ -10,7 +10,15 @@ public partial class Main : Node
     public override void _Ready()
     {
         InitializeCoinsRandomly();
-        GetNode<Ui>("UI").InitializeCoinCount(StartingCoinCount);
+        Ui ui = GetNode<Ui>("UI");
+        ui.InitializeCoinCount(StartingCoinCount);
+        ui.InitializeCountdown(GetNode<Timer>("Timer").WaitTime);
+        
+    }
+    public override void _Process(double delta)
+    {   
+        double timeLeft = GetNode<Timer>("Timer").TimeLeft + 0.5; // 0.5 is an slight buffer so label UI doesn't start at 29s
+        GetNode<CountdownLabel>("UI/CountdownLabel").UpdateTimeRemaining(double.Truncate(timeLeft));
     }
 
     private void InitializeCoinsRandomly()

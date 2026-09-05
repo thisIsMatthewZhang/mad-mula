@@ -9,4 +9,10 @@ public partial class Ui : Control
         remainingCoinsLabel.CoinCount = coinCount;
         remainingCoinsLabel.Text = $"Coins left: {coinCount}";
     }
+
+    public void InitializeCountdown(double initialTime)
+    {
+        CountdownLabel countdownLabel = GetNode<CountdownLabel>("CountdownLabel");
+        countdownLabel.Text = $"Time left: {initialTime}";
+    }
 }
