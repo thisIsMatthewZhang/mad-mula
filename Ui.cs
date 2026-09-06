@@ -12,7 +12,7 @@ public partial class Ui : Control
 
     public void InitializeCountdown(double initialTime)
     {
-        CountdownLabel countdownLabel = GetNode<CountdownLabel>("TimerLabel");
+        TimerLabel countdownLabel = GetNode<TimerLabel>("TimerLabel");
         countdownLabel.Text = $"Time left: {initialTime}";
     }
 }
