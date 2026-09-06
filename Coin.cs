@@ -12,7 +12,7 @@ public partial class Coin : AnimatableBody3D
 
     public void Remove()
     {
-        // TODO: display sparkle effects
+        // TODO: display sparkle
         EmitSignal(SignalName.Grabbed);
         QueueFree();
     }

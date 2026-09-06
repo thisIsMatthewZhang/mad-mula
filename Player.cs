@@ -6,6 +6,8 @@ public partial class Player : CharacterBody3D
     public int Speed { get; set; } = 5;
 
     private Vector3 _targetVelocity = Vector3.Zero;
+    [Signal]
+    public delegate void CoinGrabbedEventHandler();
 
     [Export]
     public int JumpImpulse { get; set; } = 20;
@@ -54,7 +56,7 @@ public partial class Player : CharacterBody3D
 
         _targetVelocity.X = Speed * direction.X;
         _targetVelocity.Z = Speed * direction.Z;
-        
+
         if (!IsOnFloor())
         {
             _targetVelocity.Y -= FallAcceleration * (float) delta;
@@ -70,6 +72,7 @@ public partial class Player : CharacterBody3D
             KinematicCollision3D collision = GetSlideCollision(i);
             if (collision.GetCollider() is Coin coin) {
                 coin.Remove();
+                EmitSignal(SignalName.CoinGrabbed);
             }
         }
     }

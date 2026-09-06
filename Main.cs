@@ -12,13 +12,13 @@ public partial class Main : Node
         InitializeCoinsRandomly();
         Ui ui = GetNode<Ui>("UI");
         ui.InitializeCoinCount(StartingCoinCount);
-        ui.InitializeCountdown(GetNode<Timer>("Timer").WaitTime);
-        
+        ui.InitializeCountdown(GetNode<Timer>("GameTimer").WaitTime);
+        GetNode<Player>("Player").CoinGrabbed += OnCoinGrabbed;
     }
     public override void _Process(double delta)
     {   
-        double timeLeft = GetNode<Timer>("Timer").TimeLeft + 0.5; // 0.5 is an slight buffer so label UI doesn't start at 29s
-        GetNode<CountdownLabel>("UI/CountdownLabel").UpdateTimeRemaining(double.Truncate(timeLeft));
+        double timeLeft = GetNode<Timer>("GameTimer").TimeLeft + 0.5; // 0.5 is an slight buffer so label UI doesn't start at 29s
+        GetNode<CountdownLabel>("UI/TimerLabel").UpdateTimeRemaining(double.Truncate(timeLeft));
     }
 
     private void InitializeCoinsRandomly()
@@ -32,5 +32,10 @@ public partial class Main : Node
             coin.Position = new Vector3((float)GD.RandRange(-box.Size.X / 2 + 1, box.Size.X / 2 - 1), box.Size.Y + 1.0f, (float)GD.RandRange(-box.Size.Z / 2 + 1, box.Size.Z / 2 - 1));
             AddChild(coin);
         }
+    }
+
+    private void OnCoinGrabbed()
+    {
+        GetNode<AudioStreamPlayer>("SoundEffect").Play();
     }
 }
