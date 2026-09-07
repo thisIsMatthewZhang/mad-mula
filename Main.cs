@@ -16,6 +16,7 @@ public partial class Main : Node
         InitializeCoinsRandomly();
         ui = GetNode<Ui>("UI");
         ui.InitializeCoinCount(StartingCoinCount);
+        GetNode<RemainingCoins>("UI/RemainingCoins").AllGrabbed += OnRemainingCoinsAllGrabbed;
         player = GetNode<Player>("Player");
         player.CoinGrabbed += OnCoinGrabbed;
         player.SetPhysicsProcess(false);
@@ -49,12 +50,19 @@ public partial class Main : Node
 
     private void OnCountdownFinished()
     {
-        GetNode<CountdownLabel>("UI/CountdownLabel").QueueFree();
+        GetNode<CountdownLabel>("UI/CountdownLabel").Visible = false;
         Timer gameTimer = GetNode<Timer>("GameTimer");
         GetNode<TimerLabel>("UI/TimerLabel").Visible = true;
         gameTimer.Start();
         ui.InitializeCountdown(gameTimer.WaitTime);
         player.SetPhysicsProcess(true);
+    }
 
+    private void OnRemainingCoinsAllGrabbed()
+    {
+        player.SetPhysicsProcess(false);
+        SetProcess(false);
+        GetNode<Timer>("GameTimer").Stop();
+        GetNode<TimerLabel>("UI/TimerLabel").Text = "You won!";
     }
 }

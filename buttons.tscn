@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://cw3c1trx1q4ko"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_smgxo"]
+bg_color = Color(0.7254902, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vforx"]
+bg_color = Color(1, 0.21960784, 0.09803922, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l2us2"]
+bg_color = Color(0.3254902, 1, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4rg6g"]
+bg_color = Color(0.21811253, 0.7022694, 0, 1)
+
+[node name="Buttons" type="BoxContainer" unique_id=417861612]
+custom_minimum_size = Vector2(1000, 150)
+offset_right = 1000.0
+offset_bottom = 150.0
+theme_override_constants/separation = 150
+alignment = 1
+
+[node name="QuitButton" type="Button" parent="." unique_id=890169375]
+custom_minimum_size = Vector2(350, 100)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 44
+theme_override_styles/normal = SubResource("StyleBoxFlat_smgxo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vforx")
+text = "Quit
+"
+
+[node name="RetryButton" type="Button" parent="." unique_id=215939571]
+custom_minimum_size = Vector2(350, 100)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 44
+theme_override_styles/normal = SubResource("StyleBoxFlat_l2us2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_4rg6g")
+text = "Retry"
