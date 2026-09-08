@@ -16,15 +16,15 @@ public partial class Main : Node
         InitializeCoinsRandomly();
         ui = GetNode<Ui>("UI");
         ui.InitializeCoinCount(StartingCoinCount);
-        GetNode<RemainingCoins>("UI/RemainingCoins").AllGrabbed += OnRemainingCoinsAllGrabbed;
+        GetNode("UI/RemainingCoins").Connect(RemainingCoins.SignalName.AllGrabbed, Callable.From(OnRemainingCoinsAllGrabbed));
         player = GetNode<Player>("Player");
-        player.CoinGrabbed += OnCoinGrabbed;
+        player.Connect(Player.SignalName.CoinGrabbed, Callable.From(OnCoinGrabbed));
         player.SetPhysicsProcess(false);
-        GetNode<Timer>("CountdownTimer").Timeout += OnCountdownTimerFinished;
-        GetNode<Timer>("GameTimer").Timeout += OnGameTimerFinished;
+        GetNode("CountdownTimer").Connect(Timer.SignalName.Timeout, Callable.From(OnCountdownTimerFinished));
+        GetNode("GameTimer").Connect(Timer.SignalName.Timeout, Callable.From(OnGameTimerFinished));
         GetNode<BoxContainer>("UI/Buttons").Hide();
-        GetNode<Button>("UI/Buttons/QuitButton").Pressed += OnQuitButtonPressed;
-        GetNode<Button>("UI/Buttons/RetryButton").Pressed += OnRetryButtonPressed;
+        GetNode("UI/Buttons/QuitButton").Connect(BaseButton.SignalName.Pressed, Callable.From(OnQuitButtonPressed));
+        GetNode("UI/Buttons/RetryButton").Connect(BaseButton.SignalName.Pressed, Callable.From(OnRetryButtonPressed));
     }
     public override void _Process(double delta)
     {   
