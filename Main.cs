@@ -21,6 +21,9 @@ public partial class Main : Node
         player.CoinGrabbed += OnCoinGrabbed;
         player.SetPhysicsProcess(false);
         GetNode<Timer>("CountdownTimer").Timeout += OnCountdownFinished;
+        GetNode<BoxContainer>("UI/Buttons").Hide();
+        GetNode<Button>("UI/Buttons/QuitButton").Pressed += OnQuitButtonPressed;
+        GetNode<Button>("UI/Buttons/RetryButton").Pressed += OnRetryButtonPressed;
     }
     public override void _Process(double delta)
     {   
@@ -38,7 +41,7 @@ public partial class Main : Node
             // TODO: logic to randomly lay coins around the level
             Coin coin = CoinScene.Instantiate<Coin>();
             coin.Grabbed += GetNode<RemainingCoins>("UI/RemainingCoins").OnCoinGrabbed;
-            coin.Position = new Vector3((float)GD.RandRange(-box.Size.X / 2 + 1, box.Size.X / 2 - 1), box.Size.Y + 1.0f, (float)GD.RandRange(-box.Size.Z / 2 + 1, box.Size.Z / 2 - 1));
+            coin.Position = new Vector3((float)GD.RandRange(-box.Size.X / 2 + 1, box.Size.X / 2 - 1), box.Size.Y + 0.5f, (float)GD.RandRange(-box.Size.Z / 2 + 1, box.Size.Z / 2 - 1));
             AddChild(coin);
         }
     }
@@ -64,5 +67,18 @@ public partial class Main : Node
         SetProcess(false);
         GetNode<Timer>("GameTimer").Stop();
         GetNode<TimerLabel>("UI/TimerLabel").Text = "You won!";
+        GetNode<BoxContainer>("UI/Buttons").Show();
+    }
+
+    private void OnRetryButtonPressed()
+    {
+        GetTree().ReloadCurrentScene();
+    }
+
+    private void OnQuitButtonPressed()
+    {
+        SceneTree sceneTree = GetTree();
+        sceneTree.Root.PropagateNotification((int) NotificationWMCloseRequest); // notify nodes in the scene tree that a window close request is made
+        sceneTree.Quit();
     }
 }
