@@ -20,7 +20,8 @@ public partial class Main : Node
         player = GetNode<Player>("Player");
         player.CoinGrabbed += OnCoinGrabbed;
         player.SetPhysicsProcess(false);
-        GetNode<Timer>("CountdownTimer").Timeout += OnCountdownFinished;
+        GetNode<Timer>("CountdownTimer").Timeout += OnCountdownTimerFinished;
+        GetNode<Timer>("GameTimer").Timeout += OnGameTimerFinished;
         GetNode<BoxContainer>("UI/Buttons").Hide();
         GetNode<Button>("UI/Buttons/QuitButton").Pressed += OnQuitButtonPressed;
         GetNode<Button>("UI/Buttons/RetryButton").Pressed += OnRetryButtonPressed;
@@ -51,7 +52,7 @@ public partial class Main : Node
         GetNode<AudioStreamPlayer>("SoundEffect").Play();
     }
 
-    private void OnCountdownFinished()
+    private void OnCountdownTimerFinished()
     {
         GetNode<CountdownLabel>("UI/CountdownLabel").Visible = false;
         Timer gameTimer = GetNode<Timer>("GameTimer");
@@ -68,6 +69,17 @@ public partial class Main : Node
         GetNode<Timer>("GameTimer").Stop();
         GetNode<TimerLabel>("UI/TimerLabel").Text = "You won!";
         GetNode<BoxContainer>("UI/Buttons").Show();
+    }
+
+    private void OnGameTimerFinished()
+    {
+        if (GetNode<RemainingCoins>("UI/RemainingCoins").CoinCount > 0)
+        {
+            player.SetPhysicsProcess(false);
+            SetProcess(false);
+            GetNode<TimerLabel>("UI/TimerLabel").Text = "You failed:(";
+            GetNode<BoxContainer>("UI/Buttons").Show();
+        }
     }
 
     private void OnRetryButtonPressed()
