@@ -16,8 +16,16 @@ public partial class Player : CharacterBody3D
     public int FallAcceleration { get; set; } = 75;
     private bool DoubleJumpAllowed { get; set; } = false;
 
+    private Vector3 _startingPosition;
+
+    public override void _Ready()
+    {
+        _startingPosition = Position;
+    }
+
     public override void _PhysicsProcess(double delta)
     {
+        GD.Print(_targetVelocity.Y);
         var direction = Vector3.Zero;
 
         if (Input.IsActionPressed("move_right"))
@@ -60,6 +68,12 @@ public partial class Player : CharacterBody3D
         if (!IsOnFloor())
         {
             _targetVelocity.Y -= FallAcceleration * (float) delta;
+        }
+
+        if (Position.Y < -50.0f)
+        {
+            _targetVelocity.Y = 0;
+            Position = _startingPosition;
         }
 
         Velocity = _targetVelocity;
