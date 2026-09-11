@@ -25,7 +25,6 @@ public partial class Player : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
     {
-        GD.Print(_targetVelocity.Y);
         var direction = Vector3.Zero;
 
         if (Input.IsActionPressed("move_right"))

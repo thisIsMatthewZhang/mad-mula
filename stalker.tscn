@@ -1,23 +1,20 @@
 [gd_scene format=3 uid="uid://cn1da7u2jm860"]
 
-[sub_resource type="CSharpScript" id="CSharpScript_jp7eu"]
-script/source = "using Godot;
-using System;
-
-public partial class Stalker : CharacterBody3D
-{
-}
-"
+[ext_resource type="Script" uid="uid://w31i4u314km7" path="res://Stalker.cs" id="1_jp7eu"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_x1jp0"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jp7eu"]
-albedo_color = Color(0.288518, 0.28851798, 0.28851798, 1)
+albedo_color = Color(0.50031036, 0.0038159986, 0.430386, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ojbc5"]
+radius = 0.42871094
+height = 1.9793396
 
 [node name="Stalker" type="CharacterBody3D" unique_id=1832405489]
-script = SubResource("CSharpScript_jp7eu")
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("1_jp7eu")
 
 [node name="Pivot" type="Node3D" parent="." unique_id=611727693]
 
@@ -29,3 +26,4 @@ surface_material_override/0 = SubResource("StandardMaterial3D_jp7eu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=360370286]
 shape = SubResource("CapsuleShape3D_ojbc5")
+debug_color = Color(0.9999824, 0.14223543, 0.4839775, 0.41960785)

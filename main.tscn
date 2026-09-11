@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://brmstphgl7vb5" path="res://Main.cs" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://yru60826y8lp" path="res://coin.tscn" id="2_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://bnpcoyrwqfprq" path="res://addons/project-time-tracker/TrackerDock.tscn" id="3_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://cn1da7u2jm860" path="res://stalker.tscn" id="3_4c57u"]
 [ext_resource type="PackedScene" uid="uid://b71tjejihfbcf" path="res://player.tscn" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://vsu6q7efvjnj" path="res://Ui.cs" id="5_7mycd"]
 [ext_resource type="Script" uid="uid://dyqssvq5dyepk" path="res://RemainingCoins.cs" id="6_272bh"]
@@ -27,6 +28,7 @@ data = PackedByteArray("//vQRAAOBMZ7JxAoZPJzjRWaCQz3GO3yzAClgMMSvlmUwzOAABa9pl2D
 [node name="Main" type="Node" unique_id=1893384718]
 script = ExtResource("1_0xm2m")
 CoinScene = ExtResource("2_1bvp3")
+StalkerScene = ExtResource("3_4c57u")
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=1988118741]
 collision_layer = 4
@@ -137,7 +139,7 @@ offset_bottom = 726.0
 grow_horizontal = 2
 
 [node name="GameTimer" type="Timer" parent="." unique_id=1090509461]
-wait_time = 30.900000000000002
+wait_time = 30.9
 one_shot = true
 
 [node name="CountdownTimer" type="Timer" parent="." unique_id=1256735039]

@@ -1,11 +1,16 @@
 using Godot;
 
-public partial class Stalker(Player player) : CharacterBody3D
+public partial class Stalker : CharacterBody3D
 {
 
     [Signal]
     public delegate void HitPlayerEventHandler();
-    private Player _player = player;
+    private Player _player;
+
+    public override void _Ready()
+    {
+        Position = new Vector3(_player.Position.X, _player.Position.Y, _player.Position.Z + 2.0f);
+    }
 
     public override void _PhysicsProcess(double delta)
     {
@@ -13,6 +18,11 @@ public partial class Stalker(Player player) : CharacterBody3D
     }
 
     private void StalkPlayer() {}
+
+    public void SetPlayer(Player player)
+    {
+        _player = player;
+    }
 
     private void CheckCollisionWithPlayer()
     {

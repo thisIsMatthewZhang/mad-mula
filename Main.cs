@@ -4,6 +4,8 @@ public partial class Main : Node
 {
     [Export]
     public PackedScene CoinScene { get; set; }
+    [Export]
+    public PackedScene StalkerScene { get; set; }
 
     private int StartingCoinCount = GD.RandRange(10, 20);
 
@@ -20,11 +22,13 @@ public partial class Main : Node
         player = GetNode<Player>("Player");
         player.Connect(Player.SignalName.CoinGrabbed, Callable.From(OnCoinGrabbed));
         player.SetPhysicsProcess(false);
+        GD.Print(player.Position);
         GetNode("CountdownTimer").Connect(Timer.SignalName.Timeout, Callable.From(OnCountdownTimerFinished));
         GetNode("GameTimer").Connect(Timer.SignalName.Timeout, Callable.From(OnGameTimerFinished));
         GetNode<BoxContainer>("UI/Buttons").Hide();
         GetNode("UI/Buttons/QuitButton").Connect(BaseButton.SignalName.Pressed, Callable.From(OnQuitButtonPressed));
         GetNode("UI/Buttons/RetryButton").Connect(BaseButton.SignalName.Pressed, Callable.From(OnRetryButtonPressed));
+        SpawnStalker();
     }
     public override void _Process(double delta)
     {   
@@ -92,5 +96,14 @@ public partial class Main : Node
         SceneTree sceneTree = GetTree();
         sceneTree.Root.PropagateNotification((int) NotificationWMCloseRequest); // notify nodes in the scene tree that a window close request is made
         sceneTree.Quit();
+    }
+
+    private void SpawnStalker()
+    {
+        Stalker stalker = StalkerScene.Instantiate<Stalker>();
+        stalker.SetPlayer(player);
+        // stalker.Position = new Vector3(player.Position.X, player.Position.Y + 2.0f, player.Position.Z);
+        AddChild(stalker);
+        GD.Print(stalker.Position);
     }
 }
