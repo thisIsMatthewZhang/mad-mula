@@ -7,17 +7,17 @@ public partial class Stalker : CharacterBody3D
     public delegate void HitPlayerEventHandler();
     private Player _player;
 
-    public override void _Ready()
-    {
-        Position = new Vector3(_player.Position.X, _player.Position.Y, _player.Position.Z + 2.0f);
-    }
+    public override void _Ready() {}
 
     public override void _PhysicsProcess(double delta)
     {
-        
+        StalkPlayer();
     }
 
-    private void StalkPlayer() {}
+    private void StalkPlayer()
+    {
+        
+    }
 
     public void SetPlayer(Player player)
     {

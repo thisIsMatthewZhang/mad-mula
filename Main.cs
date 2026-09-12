@@ -13,6 +13,10 @@ public partial class Main : Node
 
     private Player player;
 
+    private Vector3 _playerStartingPosition;
+
+    private bool StalkerSpawned = false;
+
     public override void _Ready()
     {
         InitializeCoinsRandomly();
@@ -22,13 +26,12 @@ public partial class Main : Node
         player = GetNode<Player>("Player");
         player.Connect(Player.SignalName.CoinGrabbed, Callable.From(OnCoinGrabbed));
         player.SetPhysicsProcess(false);
-        GD.Print(player.Position);
+        _playerStartingPosition = player.Position;
         GetNode("CountdownTimer").Connect(Timer.SignalName.Timeout, Callable.From(OnCountdownTimerFinished));
         GetNode("GameTimer").Connect(Timer.SignalName.Timeout, Callable.From(OnGameTimerFinished));
         GetNode<BoxContainer>("UI/Buttons").Hide();
         GetNode("UI/Buttons/QuitButton").Connect(BaseButton.SignalName.Pressed, Callable.From(OnQuitButtonPressed));
         GetNode("UI/Buttons/RetryButton").Connect(BaseButton.SignalName.Pressed, Callable.From(OnRetryButtonPressed));
-        SpawnStalker();
     }
     public override void _Process(double delta)
     {   
@@ -36,6 +39,11 @@ public partial class Main : Node
         GetNode<TimerLabel>("UI/TimerLabel").UpdateTimeRemaining(double.Truncate(timeLeft));
         double countdownTimeLeft = GetNode<Timer>("CountdownTimer").TimeLeft;
         GetNode<CountdownLabel>("UI/CountdownLabel").DecrementCountdown(double.Truncate(countdownTimeLeft));
+        if (timeLeft <= 15.0 && !StalkerSpawned && GetNode<TimerLabel>("UI/TimerLabel").Visible)
+        {
+            SpawnStalker();
+            StalkerSpawned = true;
+        }
     }
 
     private void InitializeCoinsRandomly()
@@ -102,8 +110,7 @@ public partial class Main : Node
     {
         Stalker stalker = StalkerScene.Instantiate<Stalker>();
         stalker.SetPlayer(player);
-        // stalker.Position = new Vector3(player.Position.X, player.Position.Y + 2.0f, player.Position.Z);
+        stalker.Position = _playerStartingPosition;
         AddChild(stalker);
-        GD.Print(stalker.Position);
     }
 }
