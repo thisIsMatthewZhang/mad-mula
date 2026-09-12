@@ -6,6 +6,7 @@ public partial class Main : Node
     public PackedScene CoinScene { get; set; }
     [Export]
     public PackedScene StalkerScene { get; set; }
+    private Stalker _stalker;
 
     private int _startingCoinCount = GD.RandRange(10, 20);
 
@@ -59,12 +60,12 @@ public partial class Main : Node
         }
     }
 
-    private void OnCoinGrabbed()
+    public void OnCoinGrabbed()
     {
         GetNode<AudioStreamPlayer>("SoundEffect").Play();
     }
 
-    private void OnCountdownTimerFinished()
+    public void OnCountdownTimerFinished()
     {
         GetNode<CountdownLabel>("UI/CountdownLabel").Visible = false;
         Timer gameTimer = GetNode<Timer>("GameTimer");
@@ -74,7 +75,7 @@ public partial class Main : Node
         _player.SetPhysicsProcess(true);
     }
 
-    private void OnRemainingCoinsAllGrabbed()
+    public void OnRemainingCoinsAllGrabbed()
     {
         _player.SetPhysicsProcess(false);
         SetProcess(false);
@@ -83,7 +84,7 @@ public partial class Main : Node
         GetNode<BoxContainer>("UI/Buttons").Show();
     }
 
-    private void OnGameTimerFinished()
+    public void OnGameTimerFinished()
     {
         if (GetNode<RemainingCoins>("UI/RemainingCoins").CoinCount > 0)
         {
@@ -94,12 +95,12 @@ public partial class Main : Node
         }
     }
 
-    private void OnRetryButtonPressed()
+    public void OnRetryButtonPressed()
     {
         GetTree().ReloadCurrentScene();
     }
 
-    private void OnQuitButtonPressed()
+    public void OnQuitButtonPressed()
     {
         SceneTree sceneTree = GetTree();
         sceneTree.Root.PropagateNotification((int) NotificationWMCloseRequest); // notify nodes in the scene tree that a window close request is made
@@ -108,9 +109,20 @@ public partial class Main : Node
 
     private void SpawnStalker()
     {
-        Stalker stalker = StalkerScene.Instantiate<Stalker>();
-        stalker.SetPlayer(_player);
-        stalker.Position = _playerStartingPosition;
-        AddChild(stalker);
+        _stalker = StalkerScene.Instantiate<Stalker>();
+        _stalker.SetPlayer(_player);
+        _stalker.Position = _playerStartingPosition;
+        AddChild(_stalker);
+        _stalker.Connect(Stalker.SignalName.HitPlayer, Callable.From(OnStalkerHitPlayer));
+    }
+
+    public void OnStalkerHitPlayer()
+    {
+        _player.SetPhysicsProcess(false);
+        _stalker.SetPhysicsProcess(false);
+        SetProcess(false);
+        GetNode<Timer>("GameTimer").Stop();
+        GetNode<TimerLabel>("UI/TimerLabel").Text = "The Stalker touched you👺";
+        GetNode<BoxContainer>("UI/Buttons").Show();
     }
 }

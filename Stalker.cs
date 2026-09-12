@@ -12,6 +12,8 @@ public partial class Stalker : CharacterBody3D
     public override void _PhysicsProcess(double delta)
     {
         _stalkPlayer();
+        MoveAndSlide(); // need to call this to enable proper slide collision detection
+        _checkCollisionWithPlayer();
     }
 
     private void _stalkPlayer()
