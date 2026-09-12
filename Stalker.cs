@@ -16,7 +16,12 @@ public partial class Stalker : CharacterBody3D
 
     private void _stalkPlayer()
     {
-        
+        float speed = 0.015f;
+        LookAt(_player.GlobalPosition);
+        float xLerped = Mathf.Lerp(Position.X, _player.GlobalPosition.X, speed);
+        float yLerped = Mathf.Lerp(Position.Y, _player.GlobalPosition.Y, speed);
+        float zLerped = Mathf.Lerp(Position.Z, _player.GlobalPosition.Z, speed);
+        Position = new Vector3(xLerped, yLerped, zLerped);
     }
 
     public void SetPlayer(Player player)
