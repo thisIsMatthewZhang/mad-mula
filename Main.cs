@@ -7,26 +7,26 @@ public partial class Main : Node
     [Export]
     public PackedScene StalkerScene { get; set; }
 
-    private int StartingCoinCount = GD.RandRange(10, 20);
+    private int _startingCoinCount = GD.RandRange(10, 20);
 
-    private Ui ui;
+    private Ui _ui;
 
-    private Player player;
+    private Player _player;
 
     private Vector3 _playerStartingPosition;
 
-    private bool StalkerSpawned = false;
+    private bool _stalkerSpawned = false;
 
     public override void _Ready()
     {
         InitializeCoinsRandomly();
-        ui = GetNode<Ui>("UI");
-        ui.InitializeCoinCount(StartingCoinCount);
+        _ui = GetNode<Ui>("UI");
+        _ui.InitializeCoinCount(_startingCoinCount);
         GetNode("UI/RemainingCoins").Connect(RemainingCoins.SignalName.AllGrabbed, Callable.From(OnRemainingCoinsAllGrabbed));
-        player = GetNode<Player>("Player");
-        player.Connect(Player.SignalName.CoinGrabbed, Callable.From(OnCoinGrabbed));
-        player.SetPhysicsProcess(false);
-        _playerStartingPosition = player.Position;
+        _player = GetNode<Player>("Player");
+        _player.Connect(Player.SignalName.CoinGrabbed, Callable.From(OnCoinGrabbed));
+        _player.SetPhysicsProcess(false);
+        _playerStartingPosition = _player.Position;
         GetNode("CountdownTimer").Connect(Timer.SignalName.Timeout, Callable.From(OnCountdownTimerFinished));
         GetNode("GameTimer").Connect(Timer.SignalName.Timeout, Callable.From(OnGameTimerFinished));
         GetNode<BoxContainer>("UI/Buttons").Hide();
@@ -39,17 +39,17 @@ public partial class Main : Node
         GetNode<TimerLabel>("UI/TimerLabel").UpdateTimeRemaining(double.Truncate(timeLeft));
         double countdownTimeLeft = GetNode<Timer>("CountdownTimer").TimeLeft;
         GetNode<CountdownLabel>("UI/CountdownLabel").DecrementCountdown(double.Truncate(countdownTimeLeft));
-        if (timeLeft <= 15.0 && !StalkerSpawned && GetNode<TimerLabel>("UI/TimerLabel").Visible)
+        if (timeLeft <= 15.0 && !_stalkerSpawned && GetNode<TimerLabel>("UI/TimerLabel").Visible)
         {
             SpawnStalker();
-            StalkerSpawned = true;
+            _stalkerSpawned = true;
         }
     }
 
     private void InitializeCoinsRandomly()
     {
         BoxShape3D box = (BoxShape3D) GetNode<CollisionShape3D>("Ground/CollisionShape3D").Shape;
-        for (int i = 0; i < StartingCoinCount; i++)
+        for (int i = 0; i < _startingCoinCount; i++)
         {
             // TODO: logic to randomly lay coins around the level
             Coin coin = CoinScene.Instantiate<Coin>();
@@ -70,13 +70,13 @@ public partial class Main : Node
         Timer gameTimer = GetNode<Timer>("GameTimer");
         GetNode<TimerLabel>("UI/TimerLabel").Visible = true;
         gameTimer.Start();
-        ui.InitializeCountdown(gameTimer.WaitTime);
-        player.SetPhysicsProcess(true);
+        _ui.InitializeCountdown(gameTimer.WaitTime);
+        _player.SetPhysicsProcess(true);
     }
 
     private void OnRemainingCoinsAllGrabbed()
     {
-        player.SetPhysicsProcess(false);
+        _player.SetPhysicsProcess(false);
         SetProcess(false);
         GetNode<Timer>("GameTimer").Stop();
         GetNode<TimerLabel>("UI/TimerLabel").Text = "You won!";
@@ -87,7 +87,7 @@ public partial class Main : Node
     {
         if (GetNode<RemainingCoins>("UI/RemainingCoins").CoinCount > 0)
         {
-            player.SetPhysicsProcess(false);
+            _player.SetPhysicsProcess(false);
             SetProcess(false);
             GetNode<TimerLabel>("UI/TimerLabel").Text = "You failed:(";
             GetNode<BoxContainer>("UI/Buttons").Show();
@@ -109,7 +109,7 @@ public partial class Main : Node
     private void SpawnStalker()
     {
         Stalker stalker = StalkerScene.Instantiate<Stalker>();
-        stalker.SetPlayer(player);
+        stalker.SetPlayer(_player);
         stalker.Position = _playerStartingPosition;
         AddChild(stalker);
     }

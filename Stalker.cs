@@ -11,10 +11,10 @@ public partial class Stalker : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
     {
-        StalkPlayer();
+        _stalkPlayer();
     }
 
-    private void StalkPlayer()
+    private void _stalkPlayer()
     {
         
     }
@@ -24,7 +24,7 @@ public partial class Stalker : CharacterBody3D
         _player = player;
     }
 
-    private void CheckCollisionWithPlayer()
+    private void _checkCollisionWithPlayer()
     {
         for (int i = 0; i < GetSlideCollisionCount(); i++)
         {

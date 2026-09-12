@@ -14,7 +14,7 @@ public partial class Player : CharacterBody3D
 
     [Export]
     public int FallAcceleration { get; set; } = 75;
-    private bool DoubleJumpAllowed { get; set; } = false;
+    private bool _doubleJumpAllowed { get; set; } = false;
 
     private Vector3 _startingPosition;
 
@@ -52,13 +52,13 @@ public partial class Player : CharacterBody3D
         if (IsOnFloor() && Input.IsActionJustPressed("jump"))
         {
             _targetVelocity.Y = JumpImpulse;
-            DoubleJumpAllowed = true;
+            _doubleJumpAllowed = true;
             
         }
-        if (!IsOnFloor() && Input.IsActionJustPressed("jump") && DoubleJumpAllowed)
+        if (!IsOnFloor() && Input.IsActionJustPressed("jump") && _doubleJumpAllowed)
         {
             _targetVelocity.Y = JumpImpulse * 0.75f;
-            DoubleJumpAllowed = false;
+            _doubleJumpAllowed = false;
         }
 
         _targetVelocity.X = Speed * direction.X;
