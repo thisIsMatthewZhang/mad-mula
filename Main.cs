@@ -1,4 +1,5 @@
 using Godot;
+using MadMula.RandomNames;
 
 public partial class Main : Node
 {
@@ -122,7 +123,7 @@ public partial class Main : Node
         _stalker.SetPhysicsProcess(false);
         SetProcess(false);
         GetNode<Timer>("GameTimer").Stop();
-        GetNode<TimerLabel>("UI/TimerLabel").Text = "The Stalker touched you👺";
+        GetNode<TimerLabel>("UI/TimerLabel").Text = $"{Names.GiveRandomName()} touched you 🤗";
         GetNode<BoxContainer>("UI/Buttons").Show();
     }
 }
