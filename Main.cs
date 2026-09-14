@@ -79,6 +79,8 @@ public partial class Main : Node
     public void OnRemainingCoinsAllGrabbed()
     {
         _player.SetPhysicsProcess(false);
+        _stalker.SetPhysicsProcess(false);
+        _stalker.Disconnect(Stalker.SignalName.HitPlayer, Callable.From(OnStalkerHitPlayer));
         SetProcess(false);
         GetNode<Timer>("GameTimer").Stop();
         GetNode<TimerLabel>("UI/TimerLabel").Text = "You won!";
