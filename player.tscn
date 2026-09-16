@@ -10,7 +10,12 @@ albedo_texture = ExtResource("2_onrkg")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ojbc5"]
 radius = 0.6
-height = 2.25
+
+[sub_resource type="BoxMesh" id="BoxMesh_ojbc5"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4c57u"]
+albedo_color = Color(1, 0, 1, 1)
 
 [node name="Player" type="CharacterBody3D" unique_id=1889078304]
 collision_mask = 14
@@ -27,3 +32,11 @@ surface_material_override/0 = SubResource("StandardMaterial3D_vforx")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=787219975]
 shape = SubResource("CapsuleShape3D_ojbc5")
 debug_color = Color(0.91521823, 0.17218953, 0.5830016, 0.41960785)
+
+[node name="StairWalker" type="Node3D" parent="." unique_id=973981828]
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StairWalker" unique_id=333333641]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.41351318, 0.82476807)
+mesh = SubResource("BoxMesh_ojbc5")
+surface_material_override/0 = SubResource("StandardMaterial3D_4c57u")

@@ -14,18 +14,28 @@ public partial class Player : CharacterBody3D
 
     [Export]
     public int FallAcceleration { get; set; } = 75;
+    [Export]
+    public bool DEBUG_PLAYER_MOVEMENT_INFO { get; set; } = false;
     private bool _doubleJumpAllowed { get; set; } = false;
 
     private Vector3 _startingPosition;
+    private Node3D _stairWalker;
 
     public override void _Ready()
     {
         _startingPosition = Position;
+        _stairWalker = GetNode<Node3D>("StairWalker");
     }
 
     public override void _PhysicsProcess(double delta)
     {
         var direction = Vector3.Zero;
+        // var inputDirection = Input.GetVector("move_left", "move_right", "move_left", "ui_down");
+        
+        if (IsOnFloor()) // reset Y velocity to prevent 'push-down'
+        {
+            _targetVelocity.Y = 0;
+        } 
 
         if (Input.IsActionPressed("move_right"))
         {
@@ -78,6 +88,18 @@ public partial class Player : CharacterBody3D
         Velocity = _targetVelocity;
         MoveAndSlide();
         CheckCollisionWithCoin();
+
+        // if (Math.Abs(inputDirection.Length()) > 0.1f)
+        // {
+        //     _stairWalker.RotateY((float)Math.Atan2(-direction.X, -direction.Y));
+        //     // if (IsOnWall() && IsOnFloor() && _frontWallRaycast3D.IsColliding())
+        //     // {
+        //         // if (_stairRaycast3D.IsColliding() && !_frontRaycast3D.IsColliding()) {
+        //         // var stepHeight = stairRayCast3D.GetCollisionPoint();
+        //         // GlobalPosition = new Vector3(GlobalPosition.X, GlobalPosition.Y + stepHeight 0.05, GlobalPosition.Z);
+        //         // }
+        //     // }
+        // }
     }
     public void CheckCollisionWithCoin()
     {

@@ -34,6 +34,10 @@ public partial class Main : Node
         GetNode<BoxContainer>("UI/Buttons").Hide();
         GetNode("UI/Buttons/QuitButton").Connect(BaseButton.SignalName.Pressed, Callable.From(OnQuitButtonPressed));
         GetNode("UI/Buttons/RetryButton").Connect(BaseButton.SignalName.Pressed, Callable.From(OnRetryButtonPressed));
+        if (!_player.DEBUG_PLAYER_MOVEMENT_INFO)
+        {
+            GetNode<Label>("UI/PlayerMovementInfo").Hide();
+        }
     }
     public override void _Process(double delta)
     {   
@@ -46,6 +50,11 @@ public partial class Main : Node
             SpawnStalker();
             _stalkerSpawned = true;
         }
+        if (_player.DEBUG_PLAYER_MOVEMENT_INFO)
+        {
+            GetNode<Label>("UI/PlayerMovementInfo").Text = $"Velocity: {_player.Velocity}\nUp direction: {_player.UpDirection}\nPosition: {_player.Position}";
+        }
+        
     }
 
     private void InitializeCoinsRandomly()
@@ -53,7 +62,6 @@ public partial class Main : Node
         BoxShape3D box = (BoxShape3D) GetNode<CollisionShape3D>("Ground/CollisionShape3D").Shape;
         for (int i = 0; i < _startingCoinCount; i++)
         {
-            // TODO: logic to randomly lay coins around the level
             Coin coin = CoinScene.Instantiate<Coin>();
             coin.Grabbed += GetNode<RemainingCoins>("UI/RemainingCoins").OnCoinGrabbed;
             coin.Position = new Vector3((float)GD.RandRange(-box.Size.X / 2 + 1, box.Size.X / 2 - 1), box.Size.Y + 0.5f, (float)GD.RandRange(-box.Size.Z / 2 + 1, box.Size.Z / 2 - 1));
