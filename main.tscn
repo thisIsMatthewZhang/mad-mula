@@ -72,7 +72,7 @@ transform = Transform3D(1, 0, 0, 0, -0.5981858, 0.8013575, 0, -0.8013575, -0.598
 visible = false
 
 [node name="Player" parent="." unique_id=1889078304 instance=ExtResource("4_1bvp3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 3)
 
 [node name="Camera3D" type="Camera3D" parent="Player" unique_id=357786491]
 transform = Transform3D(1, 0, 0, 0, 0.95535237, 0.2954689, 0, -0.2954689, 0.95535237, 0, 2, 4)
@@ -190,9 +190,9 @@ stream = SubResource("AudioStreamMP3_272bh")
 volume_db = 1.0
 
 [node name="ElevatedPlatform" type="StaticBody3D" parent="." unique_id=1285213336]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7431903, 14.464762)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7431903, -1.3210049)
 collision_layer = 4
-collision_mask = 11
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ElevatedPlatform" unique_id=406032940]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.169373, 1.0594215, -3.8740234)
@@ -205,7 +205,9 @@ mesh = SubResource("BoxMesh_ojbc5")
 surface_material_override/0 = SubResource("StandardMaterial3D_o2f5o")
 
 [node name="Stairs" type="StaticBody3D" parent="." unique_id=516244996]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2064743, -0.045883656, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2064743, -0.045883656, -15.785767)
+collision_layer = 4
+collision_mask = 0
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Stairs" unique_id=132331493]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.0897789, 1.1466122, 10.598793)
@@ -240,7 +242,7 @@ size = Vector3(8.75, 0.5, 2.9555664)
 material = SubResource("StandardMaterial3D_ojbc5")
 
 [node name="Ramp" type="StaticBody3D" parent="." unique_id=92283539]
-transform = Transform3D(-3.7956436e-08, -2.1904837e-08, 1, -0.43660125, 0.89965504, 3.1349696e-09, -0.89965504, -0.43660125, -4.371139e-08, -9.141541, 0.9331684, 3.7602024)
+transform = Transform3D(-3.7956436e-08, -2.1904837e-08, 1, -0.43660125, 0.89965504, 3.1349696e-09, -0.89965504, -0.43660125, -4.371139e-08, -9.141541, 0.9331684, -12.025564)
 collision_layer = 4
 collision_mask = 0
 physics_material_override = SubResource("PhysicsMaterial_4c57u")
