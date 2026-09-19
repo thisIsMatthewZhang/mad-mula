@@ -1,12 +1,14 @@
 [gd_scene format=3 uid="uid://b71tjejihfbcf"]
 
 [ext_resource type="Script" uid="uid://copbc17rdhx55" path="res://Player.cs" id="1_4flbx"]
-[ext_resource type="Texture2D" uid="uid://bx535lgvdgxi1" path="res://icon.svg" id="2_onrkg"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ojbc5"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4flbx"]
+load_path = "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.s3tc.ctex"
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vforx"]
-albedo_texture = ExtResource("2_onrkg")
+albedo_texture = SubResource("CompressedTexture2D_4flbx")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ojbc5"]
 radius = 0.6

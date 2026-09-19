@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Godot;
 
 public partial class Player : CharacterBody3D
@@ -29,6 +30,7 @@ public partial class Player : CharacterBody3D
     {
         _startingPosition = Position;
         _stairWalker = GetNode<Node3D>("StairWalker");
+        GetNode<Main>("/root/Main").ChildEnteredTree += OnStalkerSpawned;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -122,6 +124,23 @@ public partial class Player : CharacterBody3D
                 coin.Remove();
                 EmitSignal(SignalName.CoinGrabbed);
             }
+        }
+    }
+
+    public void OnStalkerSpawned(Node node)
+    {
+        if (node is Stalker stalker)
+        {
+            stalker.HitPlayer += OnStalkerHitPlayer;
+        }
+
+        void OnStalkerHitPlayer()
+        {
+            var mat = GetNode<MeshInstance3D>("Pivot/MeshInstance3D").GetActiveMaterial(0) as StandardMaterial3D;
+            var matDup = mat.Duplicate() as StandardMaterial3D;
+            matDup.Roughness = 0.0f;
+            matDup.Metallic = 1.0f;
+            GetNode<MeshInstance3D>("Pivot/MeshInstance3D").SetSurfaceOverrideMaterial(0, matDup);
         }
     }
 }

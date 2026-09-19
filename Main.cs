@@ -7,6 +7,8 @@ public partial class Main : Node
     public PackedScene CoinScene { get; set; }
     [Export]
     public PackedScene StalkerScene { get; set; }
+    [Signal]
+    public delegate void SpawnedStalkerEventHandler();
     private Stalker _stalker;
 
     private int _startingCoinCount = GD.RandRange(10, 20);
@@ -125,6 +127,7 @@ public partial class Main : Node
         _stalker.Position = _playerStartingPosition;
         AddChild(_stalker);
         _stalker.Connect(Stalker.SignalName.HitPlayer, Callable.From(OnStalkerHitPlayer));
+        EmitSignalChildEnteredTree(_stalker);
     }
 
     public void OnStalkerHitPlayer()
