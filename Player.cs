@@ -3,9 +3,10 @@ using Godot;
 public partial class Player : CharacterBody3D
 {
     [Export]
-    public int Speed { get; set; } = 5;
+    public int BaseSpeed { get; set; } = 5;
 
     private Vector3 _targetVelocity = Vector3.Zero;
+
     [Signal]
     public delegate void CoinGrabbedEventHandler();
 
@@ -14,11 +15,14 @@ public partial class Player : CharacterBody3D
 
     [Export]
     public int FallAcceleration { get; set; } = 75;
+
     [Export]
     public bool DEBUG_PLAYER_MOVEMENT_INFO { get; set; } = false;
+
     private bool _doubleJumpAllowed { get; set; } = false;
 
     private Vector3 _startingPosition;
+    
     private Node3D _stairWalker;
 
     public override void _Ready()
@@ -31,6 +35,7 @@ public partial class Player : CharacterBody3D
     {
         var direction = Vector3.Zero;
         // var inputDirection = Input.GetVector("move_left", "move_right", "move_left", "ui_down");
+        int actualSpeed;
         
         if (IsOnFloor()) // reset Y velocity to prevent 'push-down'
         {
@@ -59,6 +64,14 @@ public partial class Player : CharacterBody3D
             direction = direction.Normalized();
             GetNode<Node3D>("Pivot").Basis = Basis.LookingAt(direction);
         }
+        if (Input.IsActionPressed("run"))
+        {
+            actualSpeed = BaseSpeed * 2;
+        }
+        else
+        {
+            actualSpeed = BaseSpeed;
+        }
         if (IsOnFloor() && Input.IsActionJustPressed("jump"))
         {
             _targetVelocity.Y = JumpImpulse;
@@ -71,8 +84,8 @@ public partial class Player : CharacterBody3D
             _doubleJumpAllowed = false;
         }
 
-        _targetVelocity.X = Speed * direction.X;
-        _targetVelocity.Z = Speed * direction.Z;
+        _targetVelocity.X = actualSpeed * direction.X;
+        _targetVelocity.Z = actualSpeed * direction.Z;
 
         if (!IsOnFloor())
         {
