@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Godot;
 
 public partial class Player : CharacterBody3D
@@ -25,6 +26,8 @@ public partial class Player : CharacterBody3D
     private Vector3 _startingPosition;
     
     private Node3D _stairWalker;
+
+    private bool _invulnerable = false;
 
     public override void _Ready()
     {
@@ -136,11 +139,26 @@ public partial class Player : CharacterBody3D
 
         void OnStalkerHitPlayer()
         {
+            if (_invulnerable)
+            {
+                return;
+            }
             var mat = GetNode<MeshInstance3D>("Pivot/MeshInstance3D").GetActiveMaterial(0) as StandardMaterial3D;
-            var matDup = mat.Duplicate() as StandardMaterial3D;
-            matDup.Roughness = 0.0f;
-            matDup.Metallic = 1.0f;
-            GetNode<MeshInstance3D>("Pivot/MeshInstance3D").SetSurfaceOverrideMaterial(0, matDup);
+            mat.Roughness = 0.0f;
+            mat.Metallic = 1.0f;
+            GetNode<MeshInstance3D>("Pivot/MeshInstance3D").SetSurfaceOverrideMaterial(0, mat);
+            _invulnerable = true;
+
+            SceneTreeTimer invulnerableTimer = GetTree().CreateTimer(5.0);
+            invulnerableTimer.Timeout += () => { 
+                
+                mat.Roughness = 1.0f;
+                mat.Metallic = 0.0f;
+                GetNode<MeshInstance3D>("Pivot/MeshInstance3D").SetSurfaceOverrideMaterial(0, mat);
+                // short buffer before player's _invulnerable state is reset. This way, the player briefly resets their surface material even if colliding with stalker during initial timeout 
+                SceneTreeTimer resetInvulnerableStateBuffer = GetTree().CreateTimer(1.0);
+                resetInvulnerableStateBuffer.Timeout += () => _invulnerable = false;
+            };
         }
     }
 }

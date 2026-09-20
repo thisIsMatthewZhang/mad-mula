@@ -126,10 +126,11 @@ public partial class Main : Node
         _stalker.SetPlayer(_player);
         _stalker.Position = _playerStartingPosition;
         AddChild(_stalker);
-        _stalker.Connect(Stalker.SignalName.HitPlayer, Callable.From(OnStalkerHitPlayer));
+        // _stalker.Connect(Stalker.SignalName.HitPlayer, Callable.From(OnStalkerHitPlayer));
         EmitSignalChildEnteredTree(_stalker);
     }
 
+    // must add logic to remove hp later
     public void OnStalkerHitPlayer()
     {
         _player.SetPhysicsProcess(false);
