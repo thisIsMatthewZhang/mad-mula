@@ -1,9 +1,9 @@
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Godot;
 
 public partial class Player : CharacterBody3D
 {
+    [Signal]
+    public delegate void HitStalkerEventHandler();
     [Export]
     public int BaseSpeed { get; set; } = 5;
 
@@ -21,6 +21,9 @@ public partial class Player : CharacterBody3D
     [Export]
     public bool DEBUG_PLAYER_MOVEMENT_INFO { get; set; } = false;
 
+    [Export]
+    public int HitPoints { get; set; } = 5;
+
     private bool _doubleJumpAllowed { get; set; } = false;
 
     private Vector3 _startingPosition;
@@ -33,7 +36,6 @@ public partial class Player : CharacterBody3D
     {
         _startingPosition = Position;
         _stairWalker = GetNode<Node3D>("StairWalker");
-        GetNode<Main>("/root/Main").ChildEnteredTree += OnStalkerSpawned;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -106,6 +108,7 @@ public partial class Player : CharacterBody3D
         Velocity = _targetVelocity;
         MoveAndSlide();
         CheckCollisionWithCoin();
+        CheckCollisionWithStalker();
 
         // if (Math.Abs(inputDirection.Length()) > 0.1f)
         // {
@@ -130,35 +133,45 @@ public partial class Player : CharacterBody3D
         }
     }
 
-    public void OnStalkerSpawned(Node node)
+    public void CheckCollisionWithStalker()
     {
-        if (node is Stalker stalker)
+        if (_invulnerable) return;
+        for (int i = 0; i < GetSlideCollisionCount(); i++)
         {
-            stalker.HitPlayer += OnStalkerHitPlayer;
-        }
-
-        void OnStalkerHitPlayer()
-        {
-            if (_invulnerable)
+            KinematicCollision3D collision = GetSlideCollision(i);
+            if (collision.GetCollider() is Stalker)
             {
-                return;
+                EmitSignal(SignalName.HitStalker);
             }
-            var mat = GetNode<MeshInstance3D>("Pivot/MeshInstance3D").GetActiveMaterial(0) as StandardMaterial3D;
-            mat.Roughness = 0.0f;
-            mat.Metallic = 1.0f;
-            GetNode<MeshInstance3D>("Pivot/MeshInstance3D").SetSurfaceOverrideMaterial(0, mat);
-            _invulnerable = true;
-
-            SceneTreeTimer invulnerableTimer = GetTree().CreateTimer(5.0);
-            invulnerableTimer.Timeout += () => { 
-                
-                mat.Roughness = 1.0f;
-                mat.Metallic = 0.0f;
-                GetNode<MeshInstance3D>("Pivot/MeshInstance3D").SetSurfaceOverrideMaterial(0, mat);
-                // short buffer before player's _invulnerable state is reset. This way, the player briefly resets their surface material even if colliding with stalker during initial timeout 
-                SceneTreeTimer resetInvulnerableStateBuffer = GetTree().CreateTimer(1.0);
-                resetInvulnerableStateBuffer.Timeout += () => _invulnerable = false;
-            };
         }
+    }
+
+    public void DecrementHitPoints()
+    {
+        --HitPoints;
+    }
+
+    public void EnableIFrames()
+    {
+        if (_invulnerable)
+        {
+            return;
+        }
+        var mat = GetNode<MeshInstance3D>("Pivot/MeshInstance3D").GetActiveMaterial(0) as StandardMaterial3D;
+        mat.Roughness = 0.0f;
+        mat.Metallic = 1.0f;
+        GetNode<MeshInstance3D>("Pivot/MeshInstance3D").SetSurfaceOverrideMaterial(0, mat);
+        _invulnerable = true;
+        
+        SceneTreeTimer invulnerableTimer = GetTree().CreateTimer(5.0);
+        invulnerableTimer.Timeout += () => { 
+            
+            mat.Roughness = 1.0f;
+            mat.Metallic = 0.0f;
+            GetNode<MeshInstance3D>("Pivot/MeshInstance3D").SetSurfaceOverrideMaterial(0, mat);
+            // short buffer before player's _invulnerable state is reset. This way, the player briefly resets their surface material even if colliding with stalker during initial timeout 
+            SceneTreeTimer resetInvulnerableStateBuffer = GetTree().CreateTimer(1.0);
+            resetInvulnerableStateBuffer.Timeout += () => _invulnerable = false;
+        };
     }
 }

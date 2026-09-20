@@ -29,6 +29,7 @@ public partial class Main : Node
         GetNode("UI/RemainingCoins").Connect(RemainingCoins.SignalName.AllGrabbed, Callable.From(OnRemainingCoinsAllGrabbed));
         _player = GetNode<Player>("Player");
         _player.Connect(Player.SignalName.CoinGrabbed, Callable.From(OnCoinGrabbed));
+        _player.Connect(Player.SignalName.HitStalker, Callable.From(OnPlayerHitStalker));
         _player.SetPhysicsProcess(false);
         _playerStartingPosition = _player.Position;
         GetNode("CountdownTimer").Connect(Timer.SignalName.Timeout, Callable.From(OnCountdownTimerFinished));
@@ -43,11 +44,11 @@ public partial class Main : Node
     }
     public override void _Process(double delta)
     {   
-        double timeLeft = GetNode<Timer>("GameTimer").TimeLeft; // 0.5 is an slight buffer so label UI doesn't start at 29s
-        GetNode<TimerLabel>("UI/TimerLabel").UpdateTimeRemaining(double.Truncate(timeLeft));
+        Timer gameTimer = GetNode<Timer>("GameTimer"); // 0.5 is an slight buffer so label UI doesn't start at 29s
+        GetNode<TimerLabel>("UI/TimerLabel").UpdateTimeRemaining(double.Truncate(gameTimer.TimeLeft));
         double countdownTimeLeft = GetNode<Timer>("CountdownTimer").TimeLeft;
         GetNode<CountdownLabel>("UI/CountdownLabel").DecrementCountdown(double.Truncate(countdownTimeLeft));
-        if (timeLeft <= 15.0 && !_stalkerSpawned && GetNode<TimerLabel>("UI/TimerLabel").Visible)
+        if (gameTimer.TimeLeft <= gameTimer.WaitTime / 2.0 && !_stalkerSpawned && GetNode<TimerLabel>("UI/TimerLabel").Visible)
         {
             SpawnStalker();
             _stalkerSpawned = true;
@@ -90,7 +91,6 @@ public partial class Main : Node
     {
         _player.SetPhysicsProcess(false);
         _stalker.SetPhysicsProcess(false);
-        _stalker.Disconnect(Stalker.SignalName.HitPlayer, Callable.From(OnStalkerHitPlayer));
         SetProcess(false);
         GetNode<Timer>("GameTimer").Stop();
         GetNode<TimerLabel>("UI/TimerLabel").Text = "You won!";
@@ -120,24 +120,28 @@ public partial class Main : Node
         sceneTree.Quit();
     }
 
-    private void SpawnStalker()
+    public void SpawnStalker()
     {
         _stalker = StalkerScene.Instantiate<Stalker>();
         _stalker.SetPlayer(_player);
         _stalker.Position = _playerStartingPosition;
         AddChild(_stalker);
-        // _stalker.Connect(Stalker.SignalName.HitPlayer, Callable.From(OnStalkerHitPlayer));
-        EmitSignalChildEnteredTree(_stalker);
     }
 
     // must add logic to remove hp later
-    public void OnStalkerHitPlayer()
+    public void OnPlayerHitStalker()
     {
-        _player.SetPhysicsProcess(false);
-        _stalker.SetPhysicsProcess(false);
-        SetProcess(false);
-        GetNode<Timer>("GameTimer").Stop();
-        GetNode<TimerLabel>("UI/TimerLabel").Text = $"{Names.GiveRandomName()} touched you 🤗";
-        GetNode<BoxContainer>("UI/Buttons").Show();
+        _player.DecrementHitPoints();
+        _player.EnableIFrames();
+        GD.Print($"HP: {_player.HitPoints}");
+        if (_player.HitPoints == 0)
+        {
+            _player.SetPhysicsProcess(false);
+            _stalker.SetPhysicsProcess(false);
+            SetProcess(false);
+            GetNode<Timer>("GameTimer").Stop();
+            GetNode<TimerLabel>("UI/TimerLabel").Text = $"{Names.GiveRandomName()} touched you 🤗";
+            GetNode<BoxContainer>("UI/Buttons").Show();   
+        }
     }
 }
