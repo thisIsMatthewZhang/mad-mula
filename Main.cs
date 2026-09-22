@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 using MadMula.RandomNames;
 
@@ -31,6 +32,16 @@ public partial class Main : Node
         _player.Connect(Player.SignalName.CoinGrabbed, Callable.From(OnCoinGrabbed));
         _player.Connect(Player.SignalName.HitStalker, Callable.From(OnPlayerHitStalker));
         _player.SetPhysicsProcess(false);
+        HBoxContainer hpContainer = GetNode<HBoxContainer>("UI/HPContainer");
+        for (int i = 0; i < _player.HitPoints; i++)
+        {
+            ColorRect point = new() {
+                Color = new() { R = 0.79f, G = 0.0f, B = 0.36f, A = 1.0f },
+                CustomMinimumSize = new Vector2(100.0f, 100.0f)
+            };
+            
+            hpContainer.AddChild(point);
+        }
         _playerStartingPosition = _player.Position;
         GetNode("CountdownTimer").Connect(Timer.SignalName.Timeout, Callable.From(OnCountdownTimerFinished));
         GetNode("GameTimer").Connect(Timer.SignalName.Timeout, Callable.From(OnGameTimerFinished));
@@ -128,12 +139,12 @@ public partial class Main : Node
         AddChild(_stalker);
     }
 
-    // must add logic to remove hp later
     public void OnPlayerHitStalker()
     {
         _player.DecrementHitPoints();
         _player.EnableIFrames();
-        GD.Print($"HP: {_player.HitPoints}");
+        HBoxContainer hpContainer = GetNode<HBoxContainer>("UI/HPContainer");
+        hpContainer.RemoveChild(hpContainer.GetChildren().Last());
         if (_player.HitPoints == 0)
         {
             _player.SetPhysicsProcess(false);

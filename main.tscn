@@ -114,8 +114,9 @@ script = ExtResource("5_7mycd")
 
 [node name="RemainingCoins" type="Label" parent="UI" unique_id=1900784583]
 layout_mode = 1
+offset_top = 161.0
 offset_right = 364.0
-offset_bottom = 99.0
+offset_bottom = 260.0
 theme_override_colors/font_color = Color(0.84705883, 0.80784315, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "Coins left: "
@@ -175,6 +176,14 @@ theme_override_font_sizes/font_size = 32
 text = "Velocity: 
 Up Direction:
 Position:"
+
+[node name="HPContainer" type="HBoxContainer" parent="UI" unique_id=1270973283]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 31.0
+offset_right = 43.0
+offset_bottom = 71.0
+theme_override_constants/separation = 16
 
 [node name="GameTimer" type="Timer" parent="." unique_id=1090509461]
 wait_time = 40.9
