@@ -1,16 +1,16 @@
 [gd_scene format=4 uid="uid://bht40wptqjgo8"]
 
 [ext_resource type="Script" uid="uid://brmstphgl7vb5" path="res://Main.cs" id="1_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://yru60826y8lp" path="res://coin.tscn" id="2_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://yru60826y8lp" path="res://scenes/coin.tscn" id="2_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://bnpcoyrwqfprq" path="res://addons/project-time-tracker/TrackerDock.tscn" id="3_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://cn1da7u2jm860" path="res://stalker.tscn" id="3_4c57u"]
-[ext_resource type="PackedScene" uid="uid://b71tjejihfbcf" path="res://player.tscn" id="4_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://bxlvh2ejtxguq" path="res://basic_level.tscn" id="4_efxa6"]
+[ext_resource type="PackedScene" uid="uid://cn1da7u2jm860" path="res://scenes/stalker.tscn" id="3_4c57u"]
+[ext_resource type="PackedScene" uid="uid://b71tjejihfbcf" path="res://scenes/player.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://bxlvh2ejtxguq" path="res://scenes/levels/basic_level.tscn" id="4_efxa6"]
 [ext_resource type="Script" uid="uid://vsu6q7efvjnj" path="res://Ui.cs" id="5_7mycd"]
 [ext_resource type="Script" uid="uid://dyqssvq5dyepk" path="res://RemainingCoins.cs" id="6_272bh"]
 [ext_resource type="Script" uid="uid://dm22wpsgn3yu3" path="res://TimerLabel.cs" id="7_272bh"]
 [ext_resource type="Script" uid="uid://b0hvk1abvu0lp" path="res://CountdownLabel.cs" id="8_5vw27"]
-[ext_resource type="PackedScene" uid="uid://cw3c1trx1q4ko" path="res://buttons.tscn" id="9_kek77"]
+[ext_resource type="PackedScene" uid="uid://cw3c1trx1q4ko" path="res://scenes/buttons.tscn" id="9_kek77"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_vforx"]
 
