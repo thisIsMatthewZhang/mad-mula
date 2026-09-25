@@ -73,7 +73,8 @@ public partial class Main : Node
 
     private void InitializeCoinsRandomly()
     {
-        BoxShape3D box = (BoxShape3D) GetNode<CollisionShape3D>("Ground/CollisionShape3D").Shape;
+        var levelContainer = GetNode<Node3D>("LevelContainer");
+        BoxShape3D box = (BoxShape3D) levelContainer.GetChild(0).GetNode<CollisionShape3D>("CollisionShape3D").Shape;
         for (int i = 0; i < _startingCoinCount; i++)
         {
             Coin coin = CoinScene.Instantiate<Coin>();
