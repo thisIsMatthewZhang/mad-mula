@@ -74,12 +74,25 @@ public partial class Main : Node
     private void InitializeCoinsRandomly()
     {
         var levelContainer = GetNode<Node3D>("LevelContainer");
-        BoxShape3D box = (BoxShape3D) levelContainer.GetChild(0).GetNode<CollisionShape3D>("CollisionShape3D").Shape;
+        Shape3D shape = levelContainer.GetChild(0).GetNode<CollisionShape3D>("CollisionShape3D").Shape;
+        Vector3 coinPosition;
+        if (shape is BoxShape3D box)
+        {
+            coinPosition = new Vector3((float)GD.RandRange(-box.Size.X / 2 + 1, box.Size.X / 2 - 1), box.Size.Y + 0.5f, (float)GD.RandRange(-box.Size.Z / 2 + 1, box.Size.Z / 2 - 1));
+        }
+        else if (shape is CylinderShape3D cylinder)
+        {
+            coinPosition = new Vector3((float)GD.RandRange(-cylinder.Radius / 2 + 1, cylinder.Radius / 2 - 1), cylinder.Height + 0.5f, (float)GD.RandRange(-cylinder.Radius / 2 + 1, cylinder.Radius / 2 - 1));;
+        }
+        else
+        {
+            coinPosition = Vector3.Zero;
+        }
         for (int i = 0; i < _startingCoinCount; i++)
         {
             Coin coin = CoinScene.Instantiate<Coin>();
             coin.Grabbed += GetNode<RemainingCoins>("UI/RemainingCoins").OnCoinGrabbed;
-            coin.Position = new Vector3((float)GD.RandRange(-box.Size.X / 2 + 1, box.Size.X / 2 - 1), box.Size.Y + 0.5f, (float)GD.RandRange(-box.Size.Z / 2 + 1, box.Size.Z / 2 - 1));
+            coin.Position = coinPosition;
             AddChild(coin);
         }
     }

@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://br58ivhup6gq0"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ojbc5"]
+height = 4.0
+radius = 30.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ojbc5"]
+top_radius = 30.0
+bottom_radius = 25.0
+height = 4.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vforx"]
+albedo_color = Color(0.5033745, 0.5033746, 0.5033746, 1)
+metallic = 1.0
+metallic_specular = 1.0
+
+[node name="second_level" type="StaticBody3D" unique_id=1582486774]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=782186010]
+shape = SubResource("CylinderShape3D_ojbc5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1133611790]
+mesh = SubResource("CylinderMesh_ojbc5")
+surface_material_override/0 = SubResource("StandardMaterial3D_vforx")
