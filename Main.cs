@@ -46,7 +46,7 @@ public partial class Main : Node
             player = PlayerScene.Instantiate<Player>();
             player.Connect(Player.SignalName.CoinGrabbed, Callable.From(OnCoinGrabbed));
             player.Connect(Player.SignalName.HitStalker, Callable.From(OnPlayerHitStalker));
-            player.Position = new Vector3(0, 5, 0);
+            player.Position = GetNode("/root/Main/LevelContainer").GetChild(-1).GetNode<Node3D>("SpawnPoint").Position;
             _playerStartingPosition = player.Position;
             AddChild(player);
             player.SetPhysicsProcess(false);
@@ -115,7 +115,7 @@ public partial class Main : Node
     private static Vector3 GiveRandomSpawnPoint(Shape3D shape) => shape switch
     {
         BoxShape3D box => new Vector3((float)GD.RandRange(-box.Size.X / 2 + 1, box.Size.X / 2 - 1), box.Size.Y + 0.5f, (float)GD.RandRange(-box.Size.Z / 2 + 1, box.Size.Z / 2 - 1)),
-        CylinderShape3D cylinder => new Vector3((float)GD.RandRange(-cylinder.Radius / 2 + 1, cylinder.Radius / 2 - 1), cylinder.Height + 0.5f, (float)GD.RandRange(-cylinder.Radius / 2 + 1, cylinder.Radius / 2 - 1)),
+        CylinderShape3D cylinder => new Vector3((float)GD.RandRange(-cylinder.Radius / 2 + 1, cylinder.Radius / 2 - 1), cylinder.Height, (float)GD.RandRange(-cylinder.Radius / 2 + 1, cylinder.Radius / 2 - 1)),
         _ => Vector3.Zero
     };
 

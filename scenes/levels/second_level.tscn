@@ -24,3 +24,6 @@ shape = SubResource("CylinderShape3D_ojbc5")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1133611790]
 mesh = SubResource("CylinderMesh_ojbc5")
 surface_material_override/0 = SubResource("StandardMaterial3D_vforx")
+
+[node name="SpawnPoint" type="Node3D" parent="." unique_id=1154264322]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
