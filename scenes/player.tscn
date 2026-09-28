@@ -23,6 +23,11 @@ albedo_color = Color(1, 0, 1, 1)
 collision_mask = 14
 script = ExtResource("1_4flbx")
 
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1034127230]
+transform = Transform3D(1, 0, 0, 0, 0.95535237, 0.2954689, 0, -0.2954689, 0.95535237, 0, 2, 4)
+fov = 100.0
+size = 30.0
+
 [node name="Pivot" type="Node3D" parent="." unique_id=482744780]
 
 [node name="Character" type="Node3D" parent="Pivot" unique_id=2066187670]
