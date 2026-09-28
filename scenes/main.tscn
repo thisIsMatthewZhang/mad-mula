@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://dm22wpsgn3yu3" path="res://TimerLabel.cs" id="7_272bh"]
 [ext_resource type="Script" uid="uid://b0hvk1abvu0lp" path="res://CountdownLabel.cs" id="8_5vw27"]
 [ext_resource type="PackedScene" uid="uid://cw3c1trx1q4ko" path="res://scenes/buttons.tscn" id="9_kek77"]
+[ext_resource type="PackedScene" uid="uid://bu7w2mqhmsm3o" path="res://level_selection.tscn" id="12_eb6dy"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_vforx"]
 
@@ -148,6 +149,13 @@ offset_top = 31.0
 offset_right = 43.0
 offset_bottom = 71.0
 theme_override_constants/separation = 16
+
+[node name="LevelSelection" parent="UI" unique_id=157349844 instance=ExtResource("12_eb6dy")]
+layout_mode = 1
+offset_left = -400.0
+offset_top = -50.0
+offset_right = 400.0
+offset_bottom = 50.0
 
 [node name="GameTimer" type="Timer" parent="." unique_id=1090509461]
 wait_time = 40.9

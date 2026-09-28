@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://bu7w2mqhmsm3o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_78hbd"]
+bg_color = Color(0, 0.6117647, 0.90588236, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tsd2a"]
+bg_color = Color(1, 0.21960784, 0.09803922, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_au0oc"]
+bg_color = Color(0, 0.6117647, 0.90588236, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fg0ae"]
+bg_color = Color(0.21811253, 0.7022694, 0, 1)
+
+[node name="LevelSelection" type="HBoxContainer" unique_id=157349844]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 704.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 100
+
+[node name="BasicLevel" type="Button" parent="." unique_id=1616640571]
+custom_minimum_size = Vector2(350, 100)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 44
+theme_override_styles/normal = SubResource("StyleBoxFlat_78hbd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tsd2a")
+text = "Level One"
+
+[node name="SecondLevel" type="Button" parent="." unique_id=1437997218]
+custom_minimum_size = Vector2(350, 100)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 44
+theme_override_styles/normal = SubResource("StyleBoxFlat_au0oc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fg0ae")
+text = "Level Two"

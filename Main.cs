@@ -1,5 +1,7 @@
+using System;
 using System.Linq;
 using Godot;
+using MadMula.LevelManager;
 using MadMula.RandomNames;
 
 public partial class Main : Node
@@ -10,6 +12,8 @@ public partial class Main : Node
     public PackedScene StalkerScene { get; set; }
     [Signal]
     public delegate void SpawnedStalkerEventHandler();
+    
+    private LevelManager levelManager;
     private Stalker _stalker;
 
     private int _startingCoinCount = GD.RandRange(10, 20);
@@ -24,6 +28,8 @@ public partial class Main : Node
 
     public override void _Ready()
     {
+        levelManager = GetNode<LevelManager>("/root/LevelManager");
+        levelManager.AttachButtonPressedSignalCallbacks();
         InitializeCoinsRandomly();
         _ui = GetNode<Ui>("UI");
         _ui.InitializeCoinCount(_startingCoinCount);
@@ -75,19 +81,7 @@ public partial class Main : Node
     {
         var levelContainer = GetNode<Node3D>("LevelContainer");
         Shape3D shape = levelContainer.GetChild(0).GetNode<CollisionShape3D>("CollisionShape3D").Shape;
-        Vector3 coinPosition;
-        if (shape is BoxShape3D box)
-        {
-            coinPosition = new Vector3((float)GD.RandRange(-box.Size.X / 2 + 1, box.Size.X / 2 - 1), box.Size.Y + 0.5f, (float)GD.RandRange(-box.Size.Z / 2 + 1, box.Size.Z / 2 - 1));
-        }
-        else if (shape is CylinderShape3D cylinder)
-        {
-            coinPosition = new Vector3((float)GD.RandRange(-cylinder.Radius / 2 + 1, cylinder.Radius / 2 - 1), cylinder.Height + 0.5f, (float)GD.RandRange(-cylinder.Radius / 2 + 1, cylinder.Radius / 2 - 1));;
-        }
-        else
-        {
-            coinPosition = Vector3.Zero;
-        }
+        Vector3 coinPosition = Determine3DShape(shape);
         for (int i = 0; i < _startingCoinCount; i++)
         {
             Coin coin = CoinScene.Instantiate<Coin>();
@@ -96,6 +90,13 @@ public partial class Main : Node
             AddChild(coin);
         }
     }
+
+    private Vector3 Determine3DShape(Shape3D shape) => shape switch
+    {
+        BoxShape3D box => new Vector3((float)GD.RandRange(-box.Size.X / 2 + 1, box.Size.X / 2 - 1), box.Size.Y + 0.5f, (float)GD.RandRange(-box.Size.Z / 2 + 1, box.Size.Z / 2 - 1)),
+        CylinderShape3D cylinder => new Vector3((float)GD.RandRange(-cylinder.Radius / 2 + 1, cylinder.Radius / 2 - 1), cylinder.Height + 0.5f, (float)GD.RandRange(-cylinder.Radius / 2 + 1, cylinder.Radius / 2 - 1)),
+        _ => Vector3.Zero
+    };
 
     public void OnCoinGrabbed()
     {
