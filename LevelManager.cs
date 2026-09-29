@@ -20,7 +20,7 @@ namespace MadMula.LevelManager
         public override void _Ready()
         {
             // CurrentLevel = GetNode("/root/Main/LevelContainer").GetChild(-1);
-            AttachButtonPressedSignalCallbacks();
+            // AttachButtonPressedSignalCallbacks();
         }
 
         public void GoToScene(string path)
@@ -30,7 +30,7 @@ namespace MadMula.LevelManager
 
         public void DeferredGoToScene(string path)
         {
-            CurrentLevel?.Free();
+            // CurrentLevel?.Free();
 
             var newLevel = GD.Load<PackedScene>(path);
 

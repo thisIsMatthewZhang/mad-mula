@@ -30,7 +30,8 @@ public partial class Main : Node
 
     public override void _Ready()
     {
-        // levelManager = GetNode<LevelManager>("/root/LevelManager");
+        levelManager = GetNode<LevelManager>("/root/LevelManager");
+        levelManager.AttachButtonPressedSignalCallbacks();
         GetNode<RemainingCoins>("UI/RemainingCoins").Hide();
         GetNode<CountdownLabel>("UI/CountdownLabel").Hide();
         GetNode<BoxContainer>("UI/Buttons").Hide();
@@ -74,8 +75,6 @@ public partial class Main : Node
     }
     public override void _Process(double delta)
     {   
-        GD.Print($"Level: {GetNode("/root/Main/LevelContainer").GetChild<StaticBody3D>(-1).Position}");
-        GD.Print($"Player: {player.Position}");
         Timer gameTimer = GetNode<Timer>("GameTimer"); // 0.5 is an slight buffer so label UI doesn't start at 29s
         GetNode<TimerLabel>("UI/TimerLabel").UpdateTimeRemaining(double.Truncate(gameTimer.TimeLeft));
         double countdownTimeLeft = GetNode<Timer>("CountdownTimer").TimeLeft;
@@ -137,7 +136,7 @@ public partial class Main : Node
     public void OnRemainingCoinsAllGrabbed()
     {
         player.SetPhysicsProcess(false);
-        _stalker.SetPhysicsProcess(false);
+        _stalker?.SetPhysicsProcess(false);
         SetProcess(false);
         GetNode<Timer>("GameTimer").Stop();
         GetNode<TimerLabel>("UI/TimerLabel").Text = "You won!";
