@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using Godot;
 
 namespace MadMula.LevelManager
@@ -30,18 +31,13 @@ namespace MadMula.LevelManager
 
         public void DeferredGoToScene(string path)
         {
-            // CurrentLevel?.Free();
-
             var newLevel = GD.Load<PackedScene>(path);
 
             CurrentLevel = newLevel.Instantiate();
 
-            // GetTree().Root.AddChild(CurrentLevel);
             GetNode("/root/Main/LevelContainer").AddChild(CurrentLevel); // LevelManager & "master" node are siblings
-
-            // GetTree().CurrentScene = CurrentLevel;
         }
-
+ 
         public void AttachButtonPressedSignalCallbacks()
         {
             // consider putting UI control outside of master node in the future
