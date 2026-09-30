@@ -19,14 +19,12 @@ size = Vector3(0.1, 0.1, 0.1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4c57u"]
 albedo_color = Color(1, 0, 1, 1)
 
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_ojbc5"]
+
 [node name="Player" type="CharacterBody3D" unique_id=1889078304]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5928316, -590.9864, -1908.1357)
 collision_mask = 14
 script = ExtResource("1_4flbx")
-
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1034127230]
-transform = Transform3D(1, 0, 0, 0, 0.95535237, 0.2954689, 0, -0.2954689, 0.95535237, 0, 2, 4)
-fov = 100.0
-size = 30.0
 
 [node name="Pivot" type="Node3D" parent="." unique_id=482744780]
 
@@ -47,3 +45,13 @@ visible = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.41351318, 0.82476807)
 mesh = SubResource("BoxMesh_ojbc5")
 surface_material_override/0 = SubResource("StandardMaterial3D_4c57u")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="." unique_id=435238195]
+transform = Transform3D(1, 0, 0, 0, 0.8761869, 0.4819714, 0, -0.4819714, 0.8761869, 0, 0, 0)
+shape = SubResource("SeparationRayShape3D_ojbc5")
+spring_length = 3.5
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D" unique_id=1034127230]
+transform = Transform3D(1, 0, 0, 0, 0.97947496, -0.20156658, 0, 0.20156658, 0.97947496, 0, 0.047668457, 3.6142578)
+fov = 100.0
+size = 30.0
